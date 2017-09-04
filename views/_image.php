@@ -72,7 +72,7 @@ if ($imagesObject):
         $imageOriginal = $frontendUrl.$image->file; ?>
         <div class="<?= $imageContainerClass ?> image-padding">
             <?= Html::button('', ['class' => $buttonDeleteClass, 'onClick' => "window.idImage = '".$image->id."'; deleteImage(event);"]); ?>
-            <?= Html::img($imageFileSmall, ['id' => 'preview-image-f-' . $image->id,'original_image' => $imageOriginal,'class' => $imageClass, 'onclick' => "window.idImage = '".$image->id."'; $('#imageform-image-$id').click();"]); ?>
+            <?= Html::img($imagePath . $imageFileSmall, ['id' => 'preview-image-f-' . $image->id,'original_image' => $imageOriginal,'class' => $imageClass, 'onclick' => "window.idImage = '".$image->id."'; $('#imageform-image-$id').click();"]); ?>
             <?= Html::button($updateImageText, ['id' => "change-image-btn", 'class' => $buttonClass, 'style' => 'width: 100%;', 'onclick' => "window.idImage = '".$image->id."'; $('#imageform-image-$id').click();"]) ?>
         </div>
     <?php endforeach;

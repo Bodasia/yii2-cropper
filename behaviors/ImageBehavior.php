@@ -61,8 +61,10 @@ class ImageBehavior extends Behavior
             $fileName = time().'_'.\Yii::$app->id.'.'.$model->image->extension;
 
             $modelPhoto = new Photo();
-            $modelPhoto->file       = $this->imageData['imagePath'].$md5_1.'/'.$md5_2.'/'.$fileName;
-            $modelPhoto->file_small = $this->imageData['imagePath'].$md5_1.'/'.$md5_2.'/'.$smallFileName;
+            //$modelPhoto->file       = $this->imageData['imagePath'].$md5_1.'/'.$md5_2.'/'.$fileName;
+            $modelPhoto->file       = $md5_1.'/'.$md5_2.'/'.$fileName;
+            //$modelPhoto->file_small = $this->imageData['imagePath'].$md5_1.'/'.$md5_2.'/'.$smallFileName;
+            $modelPhoto->file_small = $md5_1.'/'.$md5_2.'/'.$smallFileName;
             $modelPhoto->type       = $this->imageData['images_label'];
             $modelPhoto->object_id  = $this->imageData['object_id'];
             $modelPhoto->action_id    = $this->imageData['object_id'];//\Yii::$app->id;
@@ -132,8 +134,11 @@ class ImageBehavior extends Behavior
             $deleteFile = $modelPhoto->file;
             $deleteSmallFile = $modelPhoto->file_small;
 
-            $modelPhoto->file       = $this->imageData['imagePath'].$md5_1.'/'.$md5_2.'/'.$fileName;
-            $modelPhoto->file_small = $this->imageData['imagePath'].$md5_1.'/'.$md5_2.'/'.$smallFileName;
+			//$modelPhoto->file       = $this->imageData['imagePath'].$md5_1.'/'.$md5_2.'/'.$fileName;
+			$modelPhoto->file       = $md5_1.'/'.$md5_2.'/'.$fileName;
+			//$modelPhoto->file_small = $this->imageData['imagePath'].$md5_1.'/'.$md5_2.'/'.$smallFileName;
+			$modelPhoto->file_small = $md5_1.'/'.$md5_2.'/'.$smallFileName;
+
             $modelPhoto->type       = $this->imageData['images_label'];
             $modelPhoto->object_id  = $this->imageData['object_id'];
             $modelPhoto->action_id    = $this->imageData['object_id'];

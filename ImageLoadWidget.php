@@ -268,7 +268,7 @@ JS;
                             }
                             json.forEach(function(item, i, json) {  
                               if ($(document).find("#image_container_id_"+item['id'])[0] == undefined) {  
-								  $(createImageContainer(item, "$this->id")).insertBefore("#image_container_id_none");
+								  $(createImageContainer(item, "$this->id")).insertAfter("#image_container_id_none");
                               }
                             });                             
                         }
@@ -278,7 +278,9 @@ JS;
                 
                 function createImageContainer(imageItem, widgetId) {
                   var imageContainer = $(document.createElement('div'));
-                  imageContainer.attr('id', 'image_container_id_' + imageItem['id']).attr('class', '$imageContainerClass');
+                  imageContainer.attr('id', 'image_container_id_' + imageItem['id'])
+                  .attr('class', '$imageContainerClass')
+                  .attr('style','display: inline-block; white-space: normal');
                   var delButton = $(document.createElement('button'))
                   	.attr('type', 'button')
                   	.attr('class', '$buttonDeleteClass')

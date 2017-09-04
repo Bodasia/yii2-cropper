@@ -64,7 +64,22 @@ $form = ActiveForm::begin(
 ?>
 <?= $form->field($modelImageForm, 'image', ['template' => '<div id="crop-url-'.$id.'" class="btn-file">{input}</div>'])
     ->input('file', ['id' => 'imageform-image-'.$id, 'onchange' => 'loadFileMany(event)'])->label(false)->error(false); ?>
-    <div "id"="images-many-container">
+
+    <div  style="">
+    <div  style="overflow-x:scroll; width:100%;  white-space: nowrap" >
+
+
+<?php
+	$numObjects = count($imagesObject);
+	if($numObjects < $images_num):
+		?>
+        <div id="image_container_id_none" class="<?= $imageContainerClass; ?> image-padding" style="display: inline-block; white-space: normal;">
+			<?= Html::img($noImage, ['id' => 'preview-image-f-none', 'style' => '', 'class' => $imageClass, 'onclick' => "window.idImage = 0; $('#imageform-image-$id').click();"]); ?>
+			<?= Html::button($createImageText, ['class' => 'btm btn-info', 'style' => 'width: 100%;', 'onclick' => " window.idImage = 0; $('#imageform-image-$id').click();"]) ?>
+        </div>
+		<?php
+	endif;
+?>
 <?php
 
 if ($imagesObject):
@@ -72,26 +87,17 @@ if ($imagesObject):
         $imageFileSmall = $frontendUrl.$image->file_small;
 		$imageOriginal = $frontendUrl.$image->file;
 		?>
-        <div id="<?= 'image_container_id_'.$image->id?>" class="<?= $imageContainerClass ?> image-padding">
+        <div id="<?= 'image_container_id_'.$image->id?>" class="<?= $imageContainerClass ?>" style="display: inline-block; white-space: normal">
             <?= Html::button('', ['class' => $buttonDeleteClass, 'onClick' => "window.idImage = '".$image->id."'; deleteImageMany(event);"]); ?>
-            <?= Html::img($imageFileSmall, ['id' => 'preview-image-f-' . $image->id,'class' => $imageClass]); ?>
+            <?= Html::img($imagePath . $imageFileSmall, ['id' => 'preview-image-f-' . $image->id,'class' => $imageClass]); ?>
             <?= Html::button($updateImageText, ['class' => 'btm btn-info', 'style' => 'width: 100%;', 'onclick' => "window.idImage = '".$image->id."'; $('#imageform-image-$id').click();"]) ?>
         </div>
         <?php
     endforeach;
 endif;
 ?>
-<?php
-$numObjects = count($imagesObject);
-if($numObjects < $images_num):
-    ?>
-    <div id="image_container_id_none" class="<?= $imageContainerClass; ?> image-padding">
-        <?= Html::img($noImage, ['id' => 'preview-image-f-none', 'class' => $imageClass, 'onclick' => "window.idImage = 0; $('#imageform-image-$id').click();"]); ?>
-        <?= Html::button($createImageText, ['class' => 'btm btn-info', 'style' => 'width: 100%;', 'onclick' => " window.idImage = 0; $('#imageform-image-$id').click();"]) ?>
+
     </div>
-    <?php
-endif;
-?>
     </div>
 <?php
 echo Html::input('hidden', 'imageData[modelName]', $modelName);
