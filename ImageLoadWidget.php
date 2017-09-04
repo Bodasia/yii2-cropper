@@ -278,14 +278,14 @@ JS;
                 
                 function createImageContainer(imageItem, widgetId) {
                   var imageContainer = $(document.createElement('div'));
-                  imageContainer.attr('id', 'image_container_id_' + imageItem['id']).attr('class', 'col-md-3 image-padding');
+                  imageContainer.attr('id', 'image_container_id_' + imageItem['id']).attr('class', '$imageContainerClass');
                   var delButton = $(document.createElement('button'))
                   	.attr('type', 'button')
-                  	.attr('class', 'btn btn-xs btn-danger btn-imageDelete glyphicon glyphicon-trash glyphicon')
+                  	.attr('class', '$buttonDeleteClass')
                   	.attr('onclick', 'window.idImage = \'' + imageItem['id'] + '\'; deleteImageMany(event);');
                   var imgPreview = $(document.createElement('img'))
                   	.attr('id', 'preview-image-f-' + imageItem['id'])
-                  	.attr('class', 'imageLoaderClass')
+                  	.attr('class', '$imageClass')
                   	.attr('src', imageItem['file_small']);
                   var updButton = $(document.createElement('button'))
                   	.attr('type', 'button')
