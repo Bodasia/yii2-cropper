@@ -1,19 +1,19 @@
 {
-    "name": "phpnt/yii2-cropper",
+    "name": "Bodasia/yii2-cropper",
     "description": "Yii2 Cropper",
-    "keywords": ["yii2", "phpnt", "cropper"],
+    "keywords": ["yii2", "Bodasia", "cropper"],
     "type": "yii2-extension",
     "license": "MIT",
     "minimum-stability" : "dev",
     "prefer-stable": true,
     "support": {
-        "source": "https://github.com/phpnt/yii2-cropper"
+        "source": "https://github.com/Bodasia/yii2-cropper"
     },
     "authors": [
         {
-            "name": "phpNT",
-            "email": "phpnt@phpnt.com",
-            "homepage": "http://phpnt.com"
+            "name": " ",
+            "email": " ",
+            "homepage": " "
         }
     ],
     "require": { 
@@ -24,7 +24,7 @@
     },
     "autoload": {
         "psr-4": {
-            "phpnt\\cropper\\": ""
+            "Bodasia\\cropper\\": ""
         }
     }
 }
