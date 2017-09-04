@@ -58,20 +58,23 @@ $form = ActiveForm::begin(
             'enctype' => 'multipart/form-data',
             'data-pjax' => true,
             'id' => 'image-form-'.$id,
-            'timeout' => '7000'
-        ]
+            'timeout' => '7000',
+        ],
     ]);
 ?>
 <?= $form->field($modelImageForm, 'image', ['template' => '<div id="crop-url-'.$id.'" class="btn-file">{input}</div>'])
     ->input('file', ['id' => 'imageform-image-'.$id, 'onchange' => 'loadFileMany(event)'])->label(false)->error(false); ?>
+    <div "id"="images-many-container">
 <?php
+
 if ($imagesObject):
     foreach($imagesObject as $image):
         $imageFileSmall = $frontendUrl.$image->file_small;
-        ?>
-        <div class="<?= $imageContainerClass ?> image-padding">
+		$imageOriginal = $frontendUrl.$image->file;
+		?>
+        <div id="<?= 'image_container_id_'.$image->id?>" class="<?= $imageContainerClass ?> image-padding">
             <?= Html::button('', ['class' => $buttonDeleteClass, 'onClick' => "window.idImage = '".$image->id."'; deleteImageMany(event);"]); ?>
-            <?= Html::img($imageFileSmall, ['class' => $imageClass]); ?>
+            <?= Html::img($imageFileSmall, ['id' => 'preview-image-f-' . $image->id,'class' => $imageClass]); ?>
             <?= Html::button($updateImageText, ['class' => 'btm btn-info', 'style' => 'width: 100%;', 'onclick' => "window.idImage = '".$image->id."'; $('#imageform-image-$id').click();"]) ?>
         </div>
         <?php
@@ -82,13 +85,14 @@ endif;
 $numObjects = count($imagesObject);
 if($numObjects < $images_num):
     ?>
-    <div class="<?= $imageContainerClass; ?> image-padding">
-        <?= Html::img($noImage, ['class' => $imageClass, 'onclick' => "window.idImage = 0; $('#imageform-image-$id').click();"]); ?>
+    <div id="image_container_id_none" class="<?= $imageContainerClass; ?> image-padding">
+        <?= Html::img($noImage, ['id' => 'preview-image-f-none', 'class' => $imageClass, 'onclick' => "window.idImage = 0; $('#imageform-image-$id').click();"]); ?>
         <?= Html::button($createImageText, ['class' => 'btm btn-info', 'style' => 'width: 100%;', 'onclick' => " window.idImage = 0; $('#imageform-image-$id').click();"]) ?>
     </div>
     <?php
 endif;
 ?>
+    </div>
 <?php
 echo Html::input('hidden', 'imageData[modelName]', $modelName);
 echo Html::input('hidden', 'imageData[id]', $id);

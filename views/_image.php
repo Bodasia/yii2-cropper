@@ -46,9 +46,9 @@ Pjax::begin([
 <?= BootstrapNotify::widget(); ?>
 <?php
 if(isset($isImage) && $isImage != '0'):
-    $image =  Html::img('/'.$isImage);
+	$image =  Html::img('/'.$isImage);
 else:
-    $image = Html::img($noImage);
+	$image = Html::img($noImage);
 endif;
 $form = ActiveForm::begin(
     [
@@ -57,27 +57,30 @@ $form = ActiveForm::begin(
             'enctype' => 'multipart/form-data',
             'data-pjax' => true,
             'id' => 'image-form-'.$id,
-            'timeout' => '7000'
-        ]
+            'timeout' => '7000',
+        ],
     ]);
 ?>
 <?= $form->field($modelImageForm, 'image', ['template' => '<div id="crop-url-'.$id.'" class="btn-file">{input}</div>'])
-    ->input('file', ['id' => 'imageform-image-'.$id, 'onchange' => 'loadFile(event)'])->label(false)->error(false); ?>
+    ->input('file', ['id' => 'imageform-image-'.$id, 'onchange' => 'loadFile(event)'])->label(false)->error(false);
+	?>
 <?php
+
 if ($imagesObject):
     foreach($imagesObject as $image):
-        $imageFileSmall = $frontendUrl.$image->$previewSize; ?>
+        $imageFileSmall = $frontendUrl.$image->$previewSize;
+        $imageOriginal = $frontendUrl.$image->file; ?>
         <div class="<?= $imageContainerClass ?> image-padding">
             <?= Html::button('', ['class' => $buttonDeleteClass, 'onClick' => "window.idImage = '".$image->id."'; deleteImage(event);"]); ?>
-            <?= Html::img($imageFileSmall, ['class' => $imageClass, 'onclick' => "window.idImage = '".$image->id."'; $('#imageform-image-$id').click();"]); ?>
-            <?= Html::button($updateImageText, ['class' => $buttonClass, 'style' => 'width: 100%;', 'onclick' => "window.idImage = '".$image->id."'; $('#imageform-image-$id').click();"]) ?>
+            <?= Html::img($imageFileSmall, ['id' => 'preview-image-f-' . $image->id,'original_image' => $imageOriginal,'class' => $imageClass, 'onclick' => "window.idImage = '".$image->id."'; $('#imageform-image-$id').click();"]); ?>
+            <?= Html::button($updateImageText, ['id' => "change-image-btn", 'class' => $buttonClass, 'style' => 'width: 100%;', 'onclick' => "window.idImage = '".$image->id."'; $('#imageform-image-$id').click();"]) ?>
         </div>
     <?php endforeach;
 else:
     ?>
     <div class="<?= $imageContainerClass; ?> image-padding">
-        <?= Html::img($noImage, ['class' => $imageClass, 'onclick' => "window.idImage = 0; $('#imageform-image-$id').click();"]); ?>
-        <?= Html::button($createImageText, ['class' => $buttonClass, 'style' => 'width: 100%;', 'onclick' => " window.idImage = 0; $('#imageform-image-$id').click();"]) ?>
+        <?= Html::img($noImage, ['id' => "preview-image-f", 'class' => $imageClass, 'onclick' => "window.idImage = 0; $('#imageform-image-$id').click();"]); ?>
+        <?= Html::button($createImageText, ['id' => "change-image-btn", 'class' => $buttonClass, 'style' => 'width: 100%;', 'onclick' => " window.idImage = 0; $('#imageform-image-$id').click();"]) ?>
     </div>
     <?php
 endif;

@@ -14,14 +14,18 @@ use Yii;
 
 class ImagesController extends Controller
 {
-    public function actionAutoloadImage()
+
+	/**
+	 * @return string|\yii\web\Response
+	 */
+	public function actionAutoloadImage()
     {
+
         if (!Yii::$app->request->isAjax) {
             return $this->goBack();
         }
-        $imageData = \Yii::$app->request->post('imageData');
+		$imageData = Json::decode(\Yii::$app->request->post('imageData'));
         $modelImageForm = new ImageForm();
-
         if($imageData['image_id'] == '0' || $imageData['image_id'] == null):
             $modelImageForm->createImage();
         else:
@@ -39,51 +43,58 @@ class ImagesController extends Controller
             );
         endif;
 
-        $imagesObject = $modelImageForm->getPhotosByLabel($label = $imageData['images_label'], $objectId = $imageData['object_id']);
+		$imagesObject = $modelImageForm->getPhotosByLabel($imageData[ 'images_label' ], $objectId = $imageData[ 'object_id' ]);
+		return Json::encode($imagesObject);
+		/*
+		if ($imageData['images_num'] == 1) {
+			return Json::encode($imagesObject);
+		} else {
+			$render = '_image-many';
+			return $this->renderAjax(
+				'@vendor/phpnt/yii2-cropper/views/'.$render,
+				[
+					'imagesObject'              => $imagesObject,
+					'modelImageForm'            => $modelImageForm,
+					'modelName'                 => $imageData['modelName'],
+					'id'                        => $imageData['id'],
+					'object_id'                 => $imageData['object_id'],
+					'images_num'                => $imageData['images_num'],
+					'images_label'              => $imageData['images_label'],
+					'buttonClass'               => $imageData['buttonClass'],
+					'previewSize'               => $imageData['previewSize'],
+					'images_temp'               => $imageData['images_temp'],
+					'imageSmallWidth'           => $imageData['imageSmallWidth'],
+					'imageSmallHeight'          => $imageData['imageSmallHeight'],
+					'createImageText'           => $imageData['createImageText'],
+					'updateImageText'           => $imageData['updateImageText'],
+					'deleteImageText'           => $imageData['deleteImageText'],
+					'frontendUrl'               => $imageData['frontendUrl'],
+					'baseUrl'                   => $imageData['baseUrl'],
+					'imagePath'                 => $imageData['imagePath'],
+					'noImage'                   => $imageData['noImage'],
+					'loaderImage'               => $imageData['loaderImage'],
+					'backend'                   => $imageData['backend'],
+					'imageClass'                => $imageData['imageClass'],
+					'buttonDeleteClass'         => $imageData['buttonDeleteClass'],
+					'imageContainerClass'       => $imageData['imageContainerClass'],
+					'formImagesContainerClass'  => $imageData['formImagesContainerClass'],
+				]
+			);
+		}*/
 
-        $render = ($imageData['images_num'] == 1) ? '_image' : '_image-many';
+	}
 
-        return $this->renderAjax(
-            '@vendor/phpnt/yii2-cropper/views/'.$render,
-            [
-                'imagesObject'              => $imagesObject,
-                'modelImageForm'            => $modelImageForm,
-                'modelName'                 => $imageData['modelName'],
-                'id'                        => $imageData['id'],
-                'object_id'                 => $imageData['object_id'],
-                'images_num'                => $imageData['images_num'],
-                'images_label'              => $imageData['images_label'],
-                'buttonClass'               => $imageData['buttonClass'],
-                'previewSize'               => $imageData['previewSize'],
-                'images_temp'               => $imageData['images_temp'],
-                'imageSmallWidth'           => $imageData['imageSmallWidth'],
-                'imageSmallHeight'          => $imageData['imageSmallHeight'],
-                'createImageText'           => $imageData['createImageText'],
-                'updateImageText'           => $imageData['updateImageText'],
-                'deleteImageText'           => $imageData['deleteImageText'],
-                'frontendUrl'               => $imageData['frontendUrl'],
-                'baseUrl'                   => $imageData['baseUrl'],
-                'imagePath'                 => $imageData['imagePath'],
-                'noImage'                   => $imageData['noImage'],
-                'loaderImage'               => $imageData['loaderImage'],
-                'backend'                   => $imageData['backend'],
-                'imageClass'                => $imageData['imageClass'],
-                'buttonDeleteClass'         => $imageData['buttonDeleteClass'],
-                'imageContainerClass'       => $imageData['imageContainerClass'],
-                'formImagesContainerClass'  => $imageData['formImagesContainerClass'],
-            ]
-        );
-    }
-
-    /**
-     * @return string
-     */
+	/**
+	 * @return string
+	 */
     public function actionDeleteImage()
     {
-        if (!Yii::$app->request->isAjax) {
+
+    	if (!Yii::$app->request->isAjax) {
             return $this->goBack();
         }
         $imageData = Json::decode(\Yii::$app->request->post('imageData'));
+
         $modelImageForm = new ImageForm();
         $modelImageForm->deleteImage();
         if(\Yii::$app->session->get('error')):
@@ -135,7 +146,6 @@ class ImagesController extends Controller
 
     /**
      * @var $alias string
-     * @return string
      */
     public function actionDelete($alias = null)
     {

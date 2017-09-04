@@ -7,6 +7,7 @@
  */
 namespace phpnt\cropper\behaviors;
 
+use common\models\Actions;
 use phpnt\cropper\models\Photo;
 use yii\base\Behavior;
 use yii\helpers\FileHelper;
@@ -30,7 +31,7 @@ class ImageBehavior extends Behavior
     public function init()
     {
         parent::init();
-        $this->imageData = \Yii::$app->request->post('imageData');
+        $this->imageData = Json::decode(\Yii::$app->request->post('imageData'));
     }
 
     /**
@@ -50,24 +51,26 @@ class ImageBehavior extends Behavior
         $md5_1 = \Yii::$app->security->generateRandomString(2);
         $md5_2 = \Yii::$app->security->generateRandomString(2);
         /* @var $modelPhoto Photo */
+
         $paramsCrop = Json::decode($this->imageData['imageCrop']);
         $model = new ImageForm();
         $model->image = UploadedFile::getInstance($model, 'image');
 
         if($model->validate()):
-            $smallFileName = time().'_'.\Yii::$app->user->id.'_small.'.$model->image->extension;
-            $fileName = time().'_'.\Yii::$app->user->id.'.'.$model->image->extension;
+            $smallFileName = time().'_'.\Yii::$app->id.'_small.'.$model->image->extension;
+            $fileName = time().'_'.\Yii::$app->id.'.'.$model->image->extension;
 
             $modelPhoto = new Photo();
             $modelPhoto->file       = $this->imageData['imagePath'].$md5_1.'/'.$md5_2.'/'.$fileName;
             $modelPhoto->file_small = $this->imageData['imagePath'].$md5_1.'/'.$md5_2.'/'.$smallFileName;
             $modelPhoto->type       = $this->imageData['images_label'];
             $modelPhoto->object_id  = $this->imageData['object_id'];
-            $modelPhoto->user_id    = \Yii::$app->user->id;
+            $modelPhoto->action_id    = $this->imageData['object_id'];//\Yii::$app->id;
 
             $commit = true;
 
             $transaction = \Yii::$app->db->beginTransaction();
+
             try {
                 if($modelPhoto->save() && $commit):
                     FileHelper::createDirectory(\Yii::getAlias($this->imageData['baseUrl']).$this->imageData['imagePath'].$md5_1.'/'.$md5_2.'/', $mode = 509);
@@ -109,21 +112,20 @@ class ImageBehavior extends Behavior
         $md5_1 = \Yii::$app->security->generateRandomString(2);
         $md5_2 = \Yii::$app->security->generateRandomString(2);
         /* @var $modelPhoto \phpnt\cropper\models\Photo */
-        $paramsCrop = Json::decode($this->imageData['imageCrop']);
+		$paramsCrop = Json::decode($this->imageData['imageCrop']);
         $model = new ImageForm();
         $model->image = UploadedFile::getInstance($model, 'image');
 
         if($model->validate()):
-            $smallFileName = time().'_'.\Yii::$app->user->id.'_small.'.$model->image->extension;
-            $fileName = time().'_'.\Yii::$app->user->id.'.'.$model->image->extension;
-
+            $smallFileName = time().'_'.\Yii::$app->id.'_small.'.$model->image->extension;
+            $fileName = time().'_'.\Yii::$app->id.'.'.$model->image->extension;
             $modelPhoto = Photo::findOne($this->imageData['image_id']);
             $modelDeletePhoto = new Photo();
             $modelDeletePhoto->file       = $modelPhoto->file;
             $modelDeletePhoto->file_small = $modelPhoto->file_small;
             $modelDeletePhoto->type       = $modelPhoto->type;
             $modelDeletePhoto->object_id  = $modelPhoto->object_id;
-            $modelDeletePhoto->user_id    = $modelPhoto->user_id;
+            $modelDeletePhoto->action_id    = null;
             $modelDeletePhoto->deleted = 1;
             $modelDeletePhoto->save();
 
@@ -134,13 +136,14 @@ class ImageBehavior extends Behavior
             $modelPhoto->file_small = $this->imageData['imagePath'].$md5_1.'/'.$md5_2.'/'.$smallFileName;
             $modelPhoto->type       = $this->imageData['images_label'];
             $modelPhoto->object_id  = $this->imageData['object_id'];
-            $modelPhoto->user_id    = \Yii::$app->user->id;
+            $modelPhoto->action_id    = $this->imageData['object_id'];
 
             $commit = true;
 
             $transaction = \Yii::$app->db->beginTransaction();
             try {
                 if($modelPhoto->save() && $commit):
+
                     FileHelper::createDirectory(\Yii::getAlias($this->imageData['baseUrl']).$this->imageData['imagePath'].$md5_1.'/'.$md5_2.'/', $mode = 509);
                     if($model->image->saveAs(\Yii::getAlias($this->imageData['baseUrl']).$this->imageData['imagePath'].$md5_1.'/'.$md5_2.'/'.$fileName)):
                         $image = Image::getImagine();
@@ -173,6 +176,7 @@ class ImageBehavior extends Behavior
                 $this->deleteImageFile(\Yii::getAlias($this->imageData['baseUrl']).$this->imageData['imagePath'].$md5_1.'/'.$md5_2.'/'.$smallFileName);
                 $transaction->rollBack();
             }
+
         else:
             \Yii::$app->session->set('error', $model->errors['image']['0']);
             \Yii::$app->session->remove('image');
@@ -182,10 +186,16 @@ class ImageBehavior extends Behavior
     public function deleteImage()
     {
         /* @var $modelPhoto \phpnt\cropper\models\Photo */
-        $paramsImageDeleteData = Json::decode($this->imageData);
+        $paramsImageDeleteData = $this->imageData;
         $modelPhoto = Photo::findOne($paramsImageDeleteData['image_id']);
+
         $modelPhoto->deleted = 1;
-        $modelPhoto->save();
+		$modelPhoto->action_id = null;
+		$modelPhoto->validate();
+		$modelPhoto->save();
+
+		//\Yii::$app->getDb()->createCommand('UPDATE actions SET source_data = null	WHERE actions.source_data = ' . $paramsImageDeleteData['image_id'])->query();
+
     }
 
     public function deleteImageFile($image_file) {

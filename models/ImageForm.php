@@ -55,13 +55,23 @@ class ImageForm extends Model
         return Photo::find()
             ->where([
                 'type'      => $label,
-                'object_id' => $objectId,
-                'user_id'   => \Yii::$app->user->id,
+                'action_id'   => $objectId,
                 'deleted'   => 0
             ])
             ->orderBy('id')
             ->all();
     }
+
+	public function getPhotosByAction($objectId)
+	{
+		return Photo::find()
+			->where([
+				'action_id' => $objectId,
+				'deleted'   => 0
+			])
+			->orderBy('id')
+			->all();
+	}
 
     public function getDeletedPhotos()
     {
