@@ -1,6 +1,6 @@
 <?php
 
-namespace phpnt\cropper\assets;
+namespace Bodasia\cropper\assets;
 
 use yii\web\AssetBundle;
 

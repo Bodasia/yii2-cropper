@@ -1,6 +1,6 @@
 <?php
 
-namespace phpnt\cropper\models;
+namespace Bodasia\cropper\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
@@ -78,15 +78,15 @@ class Photo extends \yii\db\ActiveRecord
 
     public function getPhotosByLabel($label, $objectId)
     {
-        return self::find()
-            ->where([
-                'type'      => $label,
-                'object_id' => $objectId,
-                'action_id'   => \yii::$app->id,
-                'deleted'   => 0
-            ])
-            ->orderBy('id')
-            ->all();
+		return self::find()
+			->where([
+				'type'      => $label,
+				'object_id' => $objectId,
+				'action_id'   => \yii::$app->id,
+				'deleted'   => 0
+			])
+			->orderBy('id')
+			->all();
     }
 
 

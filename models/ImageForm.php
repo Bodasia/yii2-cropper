@@ -1,15 +1,14 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: phpNT
  * Date: 18.10.2015
  * Time: 12:07
  */
 
-namespace phpnt\cropper\models;
+namespace Bodasia\cropper\models;
 
 use yii\base\Model;
-use phpnt\cropper\behaviors\ImageBehavior;
+use Bodasia\cropper\behaviors\ImageBehavior;
 
 class ImageForm extends Model
 {

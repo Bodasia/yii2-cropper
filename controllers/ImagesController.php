@@ -5,10 +5,10 @@
  * Date: 27.07.2016
  * Time: 11:09
  */
-namespace phpnt\cropper\controllers;
+namespace Bodasia\cropper\controllers;
 
 use yii\helpers\Json;
-use phpnt\cropper\models\ImageForm;
+use Bodasia\cropper\models\ImageForm;
 use yii\web\Controller;
 use Yii;
 
@@ -43,7 +43,8 @@ class ImagesController extends Controller
             );
         endif;
 
-		$imagesObject = $modelImageForm->getPhotosByLabel($imageData[ 'images_label' ], $objectId = $imageData[ 'object_id' ]);
+		$imagesObject = $modelImageForm->getPhotosByLabel($imageData[ 'images_label' ], $objectId = $imageData[ 'object_id' ], true);
+
 		return Json::encode($imagesObject);
 		/*
 		if ($imageData['images_num'] == 1) {
@@ -51,7 +52,7 @@ class ImagesController extends Controller
 		} else {
 			$render = '_image-many';
 			return $this->renderAjax(
-				'@vendor/phpnt/yii2-cropper/views/'.$render,
+				'@vendor/Bodasia/yii2-cropper/views/'.$render,
 				[
 					'imagesObject'              => $imagesObject,
 					'modelImageForm'            => $modelImageForm,
@@ -113,7 +114,7 @@ class ImagesController extends Controller
         $render = ($imageData['images_num'] == 1) ? '_image' : '_image-many';
 
         return $this->renderAjax(
-            '@vendor/phpnt/yii2-cropper/views/'.$render,
+            '@vendor/Bodasia/yii2-cropper/views/'.$render,
             [
                 'imagesObject'              => $imagesObject,
                 'modelImageForm'            => $modelImageForm,
@@ -156,7 +157,7 @@ class ImagesController extends Controller
         if(!flock($fh, LOCK_EX | LOCK_NB))
             die('Script blocked');
         foreach($photos as $one) {
-            /* @var $one \phpnt\cropper\models\Photo */
+            /* @var $one \Bodasia\cropper\models\Photo */
             if ($modelImageForm->deleteImageFile($alias, $one->file)) {
                 if ($modelImageForm->deleteImageFile($alias, $one->file_small)) {
                     $one->delete();

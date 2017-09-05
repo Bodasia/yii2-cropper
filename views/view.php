@@ -4,8 +4,8 @@ use yii\bootstrap\Html;
 use yii\web\View;
 
 /* @var $this View */
-/* @var $widget \phpnt\cropper\ImageLoadWidget */
-/* @var $modelImageForm \phpnt\cropper\models\ImageForm */
+/* @var $widget \Bodasia\cropper\ImageLoadWidget */
+/* @var $modelImageForm \Bodasia\cropper\models\ImageForm */
 /* @var $attribute string */
 /* @var $imagePath string */
 

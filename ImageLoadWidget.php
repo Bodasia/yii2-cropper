@@ -1,19 +1,19 @@
 <?php
 	/**
 	 * Created by PhpStorm.
-	 * User: phpNT
+	 * User:
 	 * Date: 06.10.2015
 	 * Time: 19:29
 	 */
 
-	namespace phpnt\cropper;
+	namespace Bodasia\cropper;
 
 	use yii\web\View;
 	use yii\base\Widget;
 	use yii\helpers\Json;
-	use phpnt\cropper\assets\CropperAsset;
-	use phpnt\cropper\assets\DistAsset;
-	use phpnt\cropper\models\ImageForm;
+	use Bodasia\cropper\assets\CropperAsset;
+	use Bodasia\cropper\assets\DistAsset;
+	use Bodasia\cropper\models\ImageForm;
 	use yii\helpers\Url;
 
 	class ImageLoadWidget extends Widget
@@ -467,11 +467,19 @@ JS;
                         success: function(data){                           
                             var json = $.parseJSON(data);
                             id_image = json[0]["id"];
-							$("#preview-image-f-"+window.idImage).attr("src", json[0]["file_small"]);							
-							del_butt = "<button type=\"button\" class=\"btn btn-xs btn-danger btn-imageDelete glyphicon glyphicon-trash glyphicon\" onclick=\"window.idImage = '"+id_image+"'; deleteImage(event);\"></button>";
-							$(del_butt).insertBefore("#preview-image-f-"+id_image);
+                            del_butt = "<button type=\"button\" id=\"button-delete-image-id-"+ id_image + "\" class=\"btn btn-xs btn-danger btn-imageDelete glyphicon glyphicon-trash glyphicon\" onclick=\"window.idImage = '"+id_image+"'; deleteImage(event);\"></button>";
 							upd_butt = "<button type=\"button\" class=\"btm btn-info\" style=\"width: 100%;\" onclick=\"window.idImage = '"+id_image+"'; $('#imageform-image-load-action-image').click();\">Изменить фото</button>";
-       						$("#change-image-btn").replaceWith(upd_butt);
+									
+                            if (window.idImage > 0) {
+							  $("#preview-image-f-"+window.idImage).attr("src", json[0]["file_small"]);							
+							  $("#button-delete-image-id-" + window.idImage).replaceWith(del_butt);
+							  $("#change-image-btn").replaceWith(upd_butt);
+       						} else {
+                              $(del_butt).insertBefore("#preview-image-f");
+                              $("#preview-image-f").attr("src", json[0]["file_small"])
+                              .attr('id', '#preview-image-f-' + id_image);	
+							  $("#change-image-btn").replaceWith(upd_butt);
+       						}
                         }
                     });
                     modalBox.modal("hide");                                    

@@ -1,7 +1,6 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: phpNT - http://phpnt.com
  * Date: 04.08.2016
  * Time: 19:08
  */
@@ -29,9 +28,9 @@
 /* @var $imageContainerClass string */
 /* @var $formImagesContainerClass string */
 
-/* @var $image \phpnt\cropper\models\Photo */
+/* @var $image \Bodasia\cropper\models\Photo */
 /* @var $imagesObject array */
-/* @var $modelImageForm \phpnt\cropper\models\ImageForm */
+/* @var $modelImageForm \Bodasia\cropper\models\ImageForm */
 
 use yii\bootstrap\ActiveForm;
 use yii\widgets\Pjax;
@@ -89,7 +88,7 @@ if ($imagesObject):
 		?>
         <div id="<?= 'image_container_id_'.$image->id?>" class="<?= $imageContainerClass ?>" style="display: inline-block; white-space: normal">
             <?= Html::button('', ['class' => $buttonDeleteClass, 'onClick' => "window.idImage = '".$image->id."'; deleteImageMany(event);"]); ?>
-            <?= Html::img($imagePath . $imageFileSmall, ['id' => 'preview-image-f-' . $image->id,'class' => $imageClass]); ?>
+            <?= Html::img($imageFileSmall, ['id' => 'preview-image-f-' . $image->id,'class' => $imageClass]); ?>
             <?= Html::button($updateImageText, ['class' => 'btm btn-info', 'style' => 'width: 100%;', 'onclick' => "window.idImage = '".$image->id."'; $('#imageform-image-$id').click();"]) ?>
         </div>
         <?php

@@ -1,7 +1,6 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: phpNT - http://phpnt.com
  * Date: 04.08.2016
  * Time: 18:55
  */
@@ -28,9 +27,9 @@
 /* @var $imageContainerClass string */
 /* @var $formImagesContainerClass string */
 
-/* @var $image \phpnt\cropper\models\Photo */
+/* @var $image \Bodasia\cropper\models\Photo */
 /* @var $imagesObject array */
-/* @var $modelImageForm \phpnt\cropper\models\ImageForm */
+/* @var $modelImageForm \Bodasia\cropper\models\ImageForm */
 
 use yii\bootstrap\ActiveForm;
 use yii\widgets\Pjax;
@@ -71,8 +70,8 @@ if ($imagesObject):
         $imageFileSmall = $frontendUrl.$image->$previewSize;
         $imageOriginal = $frontendUrl.$image->file; ?>
         <div class="<?= $imageContainerClass ?> image-padding">
-            <?= Html::button('', ['class' => $buttonDeleteClass, 'onClick' => "window.idImage = '".$image->id."'; deleteImage(event);"]); ?>
-            <?= Html::img($imagePath . $imageFileSmall, ['id' => 'preview-image-f-' . $image->id,'original_image' => $imageOriginal,'class' => $imageClass, 'onclick' => "window.idImage = '".$image->id."'; $('#imageform-image-$id').click();"]); ?>
+            <?= Html::button('', ['id' => "button-delete-image-id-".$image->id, 'class' => $buttonDeleteClass, 'onClick' => "window.idImage = '".$image->id."'; deleteImage(event);"]); ?>
+            <?= Html::img($imageFileSmall, ['id' => 'preview-image-f-' . $image->id,'original_image' => $imageOriginal,'class' => $imageClass, 'onclick' => "window.idImage = '".$image->id."'; $('#imageform-image-$id').click();"]); ?>
             <?= Html::button($updateImageText, ['id' => "change-image-btn", 'class' => $buttonClass, 'style' => 'width: 100%;', 'onclick' => "window.idImage = '".$image->id."'; $('#imageform-image-$id').click();"]) ?>
         </div>
     <?php endforeach;
