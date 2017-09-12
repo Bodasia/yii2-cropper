@@ -52,8 +52,7 @@ Modal::begin([
 ]);
 ?>
     <div class="crop-image-container-<?= $widget->id ?>">
-
-        <?= Html::img('', [
+        <?= Html::img($widget->noImage, [
             'id' => 'previewImg-'.$widget->id,
             'class' => 'cropper-image img-responsive',
             'alt' => 'crop-image',

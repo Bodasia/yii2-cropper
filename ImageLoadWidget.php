@@ -130,10 +130,13 @@
 			$formImagesContainerClass = $this->classesWidget[ 'formImagesContainerClass' ];
 
 			$js = <<< JS
-            var loadFileMany = function(event) {                               
-                var outputMany = document.getElementById("previewImg-$this->id");        
-                outputMany.src = URL.createObjectURL(event.target.files[0]);  
-                $("#modal-$this->id").modal('show');             
+            var loadFileMany = function(event) {      
+    			
+                var outputMany = document.getElementById("previewImg-$this->id");  
+                if (event.target.files.length > 0) {
+					outputMany.src = URL.createObjectURL(event.target.files[0]);  
+                	$("#modal-$this->id").modal('show');  
+                }                             
             };
 JS;
 			$view->registerJs($js, View::POS_HEAD);
@@ -270,7 +273,8 @@ JS;
                               if ($(document).find("#image_container_id_"+item['id'])[0] == undefined) {  
 								  $(createImageContainer(item, "$this->id")).insertAfter("#image_container_id_none");
                               }
-                            });                             
+                            });   
+                            $("#imageform-image-$this->id").val('');
                         }
                     });
                     modalBoxMany.modal("hide");                                    
