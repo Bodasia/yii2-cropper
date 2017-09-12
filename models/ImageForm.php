@@ -54,7 +54,7 @@ class ImageForm extends Model
         return Photo::find()
             ->where([
                 'type'      => $label,
-                'action_id'   => $objectId,
+                'object_id'   => $objectId,
                 'deleted'   => 0
             ])
             ->orderBy('id')

@@ -20,7 +20,6 @@ class ImagesController extends Controller
 	 */
 	public function actionAutoloadImage()
     {
-
         if (!Yii::$app->request->isAjax) {
             return $this->goBack();
         }

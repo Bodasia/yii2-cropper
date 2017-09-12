@@ -65,7 +65,7 @@
 				$modelPhoto->file_small = $this->imageData['imagePath'].$md5_1.'/'.$md5_2.'/'.$smallFileName;
 				$modelPhoto->type       = $this->imageData['images_label'];
 				$modelPhoto->object_id  = $this->imageData['object_id'];
-				$modelPhoto->action_id    = $this->imageData['object_id'];//\Yii::$app->id;
+				$modelPhoto->action_id    = Actions::findOne($this->imageData['object_id']) ? $this->imageData['object_id'] : null;
 
 				$commit = true;
 
