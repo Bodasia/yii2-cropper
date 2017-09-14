@@ -68,7 +68,6 @@ class Photo extends \yii\db\ActiveRecord
     }
 
     /**
-     * Пользователь, которому принадлежит ключ
      * @return \yii\db\ActiveQuery
      */
     public function getAction($modelActions)

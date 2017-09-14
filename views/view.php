@@ -44,7 +44,7 @@ echo $this->render(
 Modal::begin([
     'size' => $widget->sizeModal,
     'header' => '<h2>'.$widget->headerModal.'</h2>',
-    'footer' => Html::button('Применить', ['class' => 'btn btn-primary crop-submit']).Html::button('Отмена', ['class' => 'btn btn-default', 'onclick' => '$("#modal-'.$widget->id.'").modal("hide")']),
+    'footer' => Html::button(Yii::t('app', 'Apply'), ['class' => 'btn btn-primary crop-submit']).Html::button(Yii::t('app', 'Cancel'), ['class' => 'btn btn-default', 'onclick' => '$("#modal-'.$widget->id.'").modal("hide")']),
     'toggleButton' => false,
     'options' => [
         'id' => 'modal-'.$widget->id,

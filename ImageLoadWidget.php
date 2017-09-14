@@ -29,10 +29,10 @@
 		public $imageSmallHeight;
 		public $deleteUrl;
 		public $autoloadUrl;
-		public $createImageText = 'Загрузить фото';
-		public $updateImageText = 'Изменить фото';
-		public $deleteImageText = 'Удалить фото';
-		public $headerModal = 'Загрузить аватар';   // заголовок в модальном окне
+		public $createImageText = 'Upload image';
+		public $updateImageText = 'Change image';
+		public $deleteImageText = 'Delete image';
+		public $headerModal = 'Crop image';   // заголовок в модальном окне
 		public $buttonClass = 'btm btn-info';       // класс для кнопок - загрузить/обновить
 		public $previewSize = 'file_small';         // размер изображения для превью(либо file_small, либо просто file)
 		public $sizeModal = 'modal-lg';           // размер модального окна

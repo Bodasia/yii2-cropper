@@ -95,7 +95,7 @@
 						\Yii::$app->session->set('image', $modelPhoto->id);
 						\Yii::$app->session->remove('error');
 					else:
-						\Yii::$app->session->set('error', 'Изображение не добавлено.');
+						\Yii::$app->session->set('error', \Yii::t('app', 'Image not added.'));
 						\Yii::$app->session->remove('image');
 					endif;
 				} catch (Exception $e) {

@@ -164,6 +164,6 @@ class ImagesController extends Controller
             }
         }
         fclose($fh);
-        echo 'Удалено '.$photosCount.' фотографий.<br>';
+        echo 'Deleted '.$photosCount.' images.<br>';
     }
 }
